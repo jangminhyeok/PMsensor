@@ -46,3 +46,39 @@ float PMsensor::read() {
   return val;
   
 }
+
+float PMsensor::read_filtered() {
+  float dust;
+  float prevVal;
+  float sensitivity = 0.1;
+
+  digitalWrite(_LEDpin, LOW);
+  delayMicroseconds(280);
+  dust = analogRead(_sensorPin);
+  delayMicroseconds(40);
+  digitalWrite(_LEDpin, HIGH);
+  delayMicroseconds(9680);
+
+  dust = (0.143 * (dust * 0.0049) - 0.03) * 1000;
+  float filteredVal = (prevVal * (1 - sensitivity)) + (dust * sensitivity);
+  prevVal = filteredVal;
+  dust = filteredVal;
+
+  if (dust < 100) {
+    dust = dust / 4;
+  }
+  else if (dust > 100 && dust < 200) {
+    dust = (dust / 4) * 1.15;
+  }
+  else if (dust > 200 && dust < 300) {
+    dust = (dust / 4) * 1.15 * 1.3;
+  }
+  else if (dust > 300 && dust < 400) {
+    dust = (dust / 4) * 1.15 * 1.3 * 1.45;
+  }
+  else if (dust > 400 && dust < 500) {
+    dust = (dust / 4) * 1.15 * 1.3 * 1.45 * 1.6;
+  }
+
+ 	return dust;
+}

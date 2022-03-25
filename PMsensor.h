@@ -10,6 +10,7 @@ class PMsensor {
 	void init(int LEDpin, int sensorPin);
     float read(float sensitivity);
     float read();
+    float read_filtered();
     float rawData;
     float val;
     float prevVal;
