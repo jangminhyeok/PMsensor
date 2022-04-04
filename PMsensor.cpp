@@ -48,9 +48,7 @@ float PMsensor::read() {
 }
 
 float PMsensor::read_filtered() {
-  float dust;
-  float prevVal;
-  float sensitivity = 0.1;
+  _sensitivity = 0.1;
 
   digitalWrite(_LEDpin, LOW);
   delayMicroseconds(280);
@@ -60,7 +58,7 @@ float PMsensor::read_filtered() {
   delayMicroseconds(9680);
 
   dust = (0.143 * (dust * 0.0049) - 0.03) * 1000;
-  float filteredVal = (prevVal * (1 - sensitivity)) + (dust * sensitivity);
+  float filteredVal = (prevVal * (1 - _sensitivity)) + (dust * _sensitivity);
   prevVal = filteredVal;
   dust = filteredVal;
 

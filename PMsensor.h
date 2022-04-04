@@ -12,6 +12,7 @@ class PMsensor {
     float read();
     float read_filtered();
     float rawData;
+    float dust;
     float val;
     float prevVal;
 
